@@ -3,6 +3,7 @@ package Util;
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
@@ -23,6 +24,19 @@ public class ConnectionFactory {
         try {
             if (connection != null){
                 connection.close();
+            }
+        }catch (SQLException error){
+            JOptionPane.showMessageDialog(null, "Erro ao fechar a conexao" + error.getMessage());
+        }
+    }
+    public static void closeConnection(Connection connection, PreparedStatement statement){
+        try {
+            if (connection != null){
+                connection.close();
+            }
+
+            if (statement != null){
+                statement.close();
             }
         }catch (SQLException error){
             JOptionPane.showMessageDialog(null, "Erro ao fechar a conexao" + error.getMessage());
