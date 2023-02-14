@@ -25,8 +25,8 @@ public class ProjectController {
             statement = connection.prepareStatement(sql);
             statement.setString(1, project.getName());
             statement.setString(2, project.getDescription());
-            statement.setDate(7, new Date(project.getCreatedAt().getTime()));
-            statement.setDate(8, new Date(project.getUpdateAt().getTime()));
+            statement.setDate(3, new Date(project.getCreatedAt().getTime()));
+            statement.setDate(4, new Date(project.getUpdateAt().getTime()));
             statement.execute();
 
         }catch (Exception e){
@@ -34,7 +34,6 @@ public class ProjectController {
         }finally {
             ConnectionFactory.closeConnection(connection, statement);
         }
-
     }
 
     public void update (Project project) {
@@ -48,11 +47,13 @@ public class ProjectController {
         PreparedStatement statement = null;
 
         try {
+            connection = ConnectionFactory.connectDB();
+            statement = connection.prepareStatement(sql);
             statement.setString(1, project.getName());
             statement.setString(2, project.getDescription());
-            statement.setDate(7, new Date(project.getCreatedAt().getTime()));
-            statement.setDate(8, new Date(project.getUpdateAt().getTime()));
-            statement.setInt(9, project.getId());
+            statement.setDate(3, new Date(project.getCreatedAt().getTime()));
+            statement.setDate(4, new Date(project.getUpdateAt().getTime()));
+            statement.setInt(5, project.getId());
             statement.execute();
 
         }catch (Exception e) {

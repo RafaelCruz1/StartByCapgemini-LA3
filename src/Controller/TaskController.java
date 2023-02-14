@@ -63,6 +63,8 @@ public class TaskController {
         PreparedStatement statement = null;
 
         try {
+            connection = ConnectionFactory.connectDB();
+            statement = connection.prepareStatement(sql);
             statement.setString(1, task.getName());
             statement.setString(2, task.getDescription());
             statement.setBoolean(3, task.isCompleted());
