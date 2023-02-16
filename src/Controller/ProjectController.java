@@ -1,12 +1,16 @@
 package Controller;
 
 import Model.Project;
+import Model.Task;
 import Util.ConnectionFactory;
 
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectController {
 
@@ -61,5 +65,38 @@ public class ProjectController {
         }finally {
             ConnectionFactory.closeConnection(connection, statement);
         }
+    }
+    public List<Project> getAll() {
+        String sql = "SELECT * FROM projects ";
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        List<Project> projects = new ArrayList<>();
+
+       try{
+           connection = ConnectionFactory.connectDB();
+           statement = connection.prepareStatement(sql);
+           resultSet = statement.executeQuery();
+
+           while (resultSet.next()){
+               Project project =new Project();
+
+               project.setId(resultSet.getInt("id"));
+               project.setName(resultSet.getString("name"));
+               project.setDescription(resultSet.getString("description"));
+               project.setCreatedAt(resultSet.getDate("createdAt"));
+               project.setUpdateAt(resultSet.getDate("updateAt"));
+
+               projects.add(project);
+           }
+
+       }catch (Exception e ){
+
+       }finally {
+           ConnectionFactory.closeConnection(connection, statement, resultSet);
+       }
+       return projects;
     }
 }
